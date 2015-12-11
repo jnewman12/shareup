@@ -21,6 +21,7 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -71,17 +72,29 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [
+        {
+          context: '/api',
+          host: 'localhost',
+          port: 3000
+        }
+      ],
       livereload: {
         options: {
           open: true,
           middleware: function (connect) {
             return [
-              connect.static('.tmp'),
-              connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
-              ),
-              connect.static(appConfig.app)
+              // below is the default, editing to be able to connect to our rails api
+              // connect.static('.tmp'),
+              // connect().use(
+              //   '/bower_components',
+              //   connect.static('./bower_components')
+              // ),
+              // connect.static(appConfig.app)
+              proxySnippet,
+              lrSnippet,
+              mountFolder(connect, '.tmp'),
+              mountFolder(connect, yeomanConfig.app)
             ];
           }
         }
@@ -357,6 +370,15 @@ module.exports = function (grunt) {
       }
     }
   });
+  
+  //grunt.loadNpmTasks('grunt-connect-proxy');
+
+     grunt.loadNpmTasks('grunt-connect-proxy');
+     grunt.loadNpmTasks('grunt-contrib-connect');
+
+     grunt.registerTask('default', [
+         'configureProxies:server',
+         'connect:server']);
 
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
@@ -368,6 +390,7 @@ module.exports = function (grunt) {
       'clean:server',
       'wiredep',
       'concurrent:server',
+      'configureProxies',
       'autoprefixer',
       'connect:livereload',
       'watch'
@@ -381,6 +404,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
+    'configureProxies',
     'concurrent:test',
     'autoprefixer',
     'connect:test',
