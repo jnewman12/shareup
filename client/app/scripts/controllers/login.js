@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('shareupApp')
-  .controller('LoginCtrl', function($location, $scope, $http, tokenHandler) { 
+App.controller('LoginCtrl', ['tokenHandler', function($location, $scope, $http, tokenHandler) { 
   	$scope.signup = function() {
       $http({
         url: '/api/users/sign_in',
@@ -22,4 +21,4 @@ angular.module('shareupApp')
     	$scope.user.errors =  'Something is wrong with the service. Please try again';
     }); 
   };
-}); 
+}]); 
