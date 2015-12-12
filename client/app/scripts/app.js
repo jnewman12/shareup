@@ -17,6 +17,25 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
+  .config(function($httpProvider) {
+    var interceptor = ['$rootScope', '$location', '$q',
+    function($scope, $location, $q) {
+      var success = function(resp) { return resp; },
+      err = function(response) {
+        if (response.status === 401) {
+          var d = $q.defer();
+          $scope.$broadcast('event:unauthorized');
+          return d.promise;
+        };
+        return $q.reject(response)
+      };
+      return function(promise) {
+        return promise.then(success, err);
+      }
+    }];
+     $httpProvider.responseInterceptors.push(interceptor);
+   })
+
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -24,10 +43,16 @@ angular
         controller: 'MainCtrl'
       })
       .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
+  })
+
+  .run(function($rootScope,$http,$location,tokenHandler) { 
+    $rootScope.$on('event:unauthorized', function(evt) {
+      $location.path('/login');
+    });
   });
