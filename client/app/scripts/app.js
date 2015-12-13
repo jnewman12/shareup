@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var App =  angular.module('shareupApp', ['ngAnimate','ngCookies','ngResource','ngRoute','ngSanitize','ngTouch'])
+var App =  angular.module('shareupApp', ['ngAnimate','ngCookies','ngResource','ngRoute','ngSanitize','ngTouch']);
 
 
 App.config(function($httpProvider) {
@@ -28,25 +28,31 @@ App.config(function($httpProvider) {
       };
     }];
      $httpProvider.responseInterceptors.push(interceptor);
-   })
+   });
 
 App.config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+        token: function(tokenHandler) { 
+          return tokenHandler.get();
+        } 
+       }
       })
-      .when('/about', {
+      .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
-  })
+  });
 
 App.run(function($rootScope,$http,$location) { 
     $rootScope.$on('event:unauthorized', function(evt) {
       $location.path('/login');
+      console.log('fuck the grunt watch bullshit' + evt);
     });
   });

@@ -1,6 +1,7 @@
 'use strict';
 
-App.controller('LoginCtrl', ['tokenHandler', function($location, $scope, $http, tokenHandler) { 
+App.controller('LoginCtrl', ['tokenHandler', '$location', '$scope', '$http',
+ function($location, $scope, $http, tokenHandler) { 
   	$scope.signup = function() {
       $http({
         url: '/api/users/sign_in',
