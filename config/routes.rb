@@ -12,8 +12,11 @@ Rails.application.routes.draw do
       }
 
   devise_scope :user do
-    get '/api/current_user' => 'users/sessions#show_current_user'
-    post '/api/check/is_user' => 'users/users#is_user', as: 'is_user'
+    #get '/api/current_user' => 'users/sessions#show_current_user'
+    #post '/api/check/is_user' => 'users/users#is_user', as: 'is_user'
+
+    post '/check/is_user' => 'users/users#is_user',
+    as: 'is_user'
   end    
 
   get '/dashboard' => 'welcome#dashboard'
