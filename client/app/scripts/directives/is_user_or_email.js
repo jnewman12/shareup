@@ -11,8 +11,9 @@ angular.module('shareupApp')
             data: { 'name': input }
   	}).then(function(data) {
   	  if (data.status == 200){
-  	       d.resolve(data.data); } else {
-  	       d.reject(data.data);
+  	       d.resolve(data.data); 
+      } else {
+  	   d.reject(data.data);
      	} 
      });
   	 } else {
@@ -31,21 +32,26 @@ angular.module('shareupApp')
   	    // value is a user with the function above
   	    // If it is a user, then our field will be valid, if it's not
   	    // check if the input is an email
-  	   scope.$watch(attrs.ngModel, function(v) { 
-  	   	if (checking) clearTimeout(checking);
-  	   	var value = scope.ngModel.$viewValue;
-  	    checking = $timeout(function() { 
+  	     scope.$watch(attrs.ngModel, function(v) { 
+  	       if (checking) clearTimeout(checking);
+  	   	   var value = scope.ngModel.$viewValue;
+  	       checking = $timeout(function() { 
   	    	isUser(value).then(function(data) { 
-  	    		if (data.success) {
-  	    			checking = null; ctrl.$setValidity('isUserOrEmail', true); else { 
-  	    				if (emailRegex.test(value)) { 
-  	    					checking = null; ctrl.$setValidity('isUserOrEmail', true); 
-  	    				} else { 
-  	    					checking = null; ctrl.$setValidity('isUserOrEmail', false);
-  	    				} 
-  	    			}
-  	    		});
-  	    }, 200); });
-  	  } 
-    };	
+  	    	  if (data.success) {
+  	    		checking = null; 
+  	    		ctrl.$setValidity('isUserOrEmail', true); 
+  	    	} else {
+  	    		if (emailRegex.test(value)) {
+  	    			checking = null;
+  	    			ctrl.$setValidity('isUserOrEmail', true);
+  	    		} else {
+  	    		  checking = null;
+  	    			ctrl.$setValidity('isUserOrEmail', false);
+  	    		}
+  	    	}
+        });
+      }, 200);
+    });
+    }
+  }; // hate how this kind of js looks. brutal on the eyes        
 });
