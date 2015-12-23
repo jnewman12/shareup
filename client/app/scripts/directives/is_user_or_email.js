@@ -3,11 +3,13 @@
 angular.module('shareupApp')
   .directive('isUserOrEmail', function($http, $timeout, $filter, $q) {
   	var isUser = function(input) {
-  	        // We're returning a deferred promise
   	  var d = $q.defer();
   	  if (input) { $http({
             url: '/api/check/is_user',
             method: 'POST',
+            params: {
+              auth_token: tokenHandler.get();
+            }
             data: { 'name': input }
   	}).then(function(data) {
   	  if (data.status == 200){
