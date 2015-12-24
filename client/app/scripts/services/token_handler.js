@@ -21,7 +21,15 @@ App.service('tokenHandler', function($rootScope) {
 		  $rootScope.$broadcast('event:unauthorized');
 		} else {
 		return token;	
-	    }
+	    },
+	    wrapActions: function(resource, actions) {
+	      var wrappedResource = resource;
+	      for (var i=0; i < actions.length; i++) {
+	        tokenWrapper( wrappedResource, actions[i] );
+	       };
+	    return wrappedResource; 
+	      }
+	    };
 	}
   };
   getCurrentUser: function() {
