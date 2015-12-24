@@ -2,7 +2,8 @@
 
 // were in function args, but jslint complained $http, $q, $location
 
-App.service('tokenHandler', function($rootScope) {
+angular.module('shareupApp')
+ .service('tokenHandler', function($rootScope, $http, $q) {
   var token = null, currentUser;
 
   var tokenWrapper = function(resource, action) {
@@ -10,8 +11,8 @@ App.service('tokenHandler', function($rootScope) {
 	resource[action] = function( data, success, error){
 	  return resource['_' + action](
 	    angular.extend({}, data || {}, 
-	      {access_token: tokenHandler.get()}), success,error); 
-	};
+	     {access_token: tokenHandler.get()}), success,error); 
+	  };
   };
 //currentUser;
   var tokenHandler = {
@@ -21,21 +22,20 @@ App.service('tokenHandler', function($rootScope) {
 		  $rootScope.$broadcast('event:unauthorized');
 		} else {
 		return token;	
-	    },
-	    wrapActions: function(resource, actions) {
-	      var wrappedResource = resource;
-	      for (var i=0; i < actions.length; i++) {
-	        tokenWrapper( wrappedResource, actions[i] );
-	       };
-	    return wrappedResource; 
-	      }
-	    };
-	}
-  };
+	  }
+	},
+    wrapActions: function(resource, actions) {
+      var wrappedResource = resource;
+      for (var i=0; i < actions.length; i++) {
+        tokenWrapper( wrappedResource, actions[i] );
+       }
+      return wrappedResource; 
+    },
+  //};
   getCurrentUser: function() {
   	var d = $q.defer();
   	if (currentUser) {
-  		d.resolve(currentUser);
+  	  d.resolve(currentUser);
   	} else {
   		$http({
   			url: '/api/current_user',
@@ -45,6 +45,9 @@ App.service('tokenHandler', function($rootScope) {
   		});
   	}
   	return d.promise;
+   }
+
   };
   return tokenHandler;
 });
+

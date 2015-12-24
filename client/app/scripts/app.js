@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var App =  angular.module('shareupApp', ['ngAnimate','ngCookies','ngResource','ngRoute','ngSanitize','ngTouch']);
+var App =  angular.module('shareupApp', ['ngAnimate','ngCookies','ngResource','ngRoute','ngSanitize','ngTouch'])
 
 
 App.config(function($httpProvider) {

@@ -1,6 +1,7 @@
-'use-strict';
+'use strict';
 
-App.factory('ArticleService', function($http, $q){
+angular.module('shareupApp')
+ .factory('ArticleService', function($http, $q){
   var service = {
   	getLatestFeed: function() {
   		var d = $q.defer();
@@ -10,12 +11,13 @@ App.factory('ArticleService', function($http, $q){
         ).then(function(data, status) {
         	if (data.status === 200) {
         	  d.resolve(data.data.responseData.feed.entries);
+        	  console.log(status);
         	} else {
         	  d.reject(data);
         	}
         });
       return d.promise;  
   	}
-  }
+  };
   return service;
 });

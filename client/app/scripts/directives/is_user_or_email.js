@@ -1,25 +1,23 @@
-'use-strict';
+'use strict';
 
 angular.module('shareupApp')
-  .directive('isUserOrEmail', function($http, $timeout, $filter, $q) {
+  .directive('isUserOrEmail', function($http, $timeout, $filter, $q, tokenHandler) {
   	var isUser = function(input) {
   	  var d = $q.defer();
   	  if (input) { $http({
             url: '/api/check/is_user',
             method: 'POST',
-            params: {
-              auth_token: tokenHandler.get();
-            }
+            params: { auth_token: tokenHandler.get() },
             data: { 'name': input }
   	}).then(function(data) {
-  	  if (data.status == 200){
+  	  if (data.status === 200){
   	       d.resolve(data.data); 
       } else {
   	   d.reject(data.data);
      	} 
      });
   	 } else {
-  	    d.reject("No input");
+  	    d.reject('No input');
   	 }
   	return d.promise;
   };
@@ -35,7 +33,10 @@ angular.module('shareupApp')
   	    // If it is a user, then our field will be valid, if it's not
   	    // check if the input is an email
   	     scope.$watch(attrs.ngModel, function(v) { 
-  	       if (checking) clearTimeout(checking);
+  	       if (checking) {
+            clearTimeout(checking);
+            console.log(v);
+           }
   	   	   var value = scope.ngModel.$viewValue;
   	       checking = $timeout(function() { 
   	    	isUser(value).then(function(data) { 
