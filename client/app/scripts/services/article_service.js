@@ -17,4 +17,5 @@ App.factory('ArticleService', function($http, $q){
       return d.promise;  
   	}
   }
+  return service;
 });

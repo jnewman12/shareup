@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<!-- <div class="jumbotron">
   <h1>'Allo, 'Allo!</h1>
   <p class="lead">
     <img src="images/yeoman.png" alt="I'm Yeoman"><br>
@@ -20,4 +20,20 @@
 
   <h4>Karma</h4>
   <p>Spectacular Test Runner for JavaScript.</p>
+</div> -->
+
+<div class="row">
+  <div ng-repeat="article in articles | orderBy:publishedDate:false">
+    <div class="article-listing-element row"> 
+      <div class="span9">
+         <h2><a href="{{ article.link }}" title="{{ article.title }}"> {{ article.title }}</a></h2>
+        <p>
+          {{ article.publishedDate |date:'M/d/yy h:mm:ss a' }}
+        </p> 
+      </div>
+      <div class="span2">
+        <a share ng-model="article"> Share</a>
+      </div>
+    </div>
+  </div>
 </div>
