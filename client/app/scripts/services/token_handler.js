@@ -1,7 +1,5 @@
 'use strict';
 
-// were in function args, but jslint complained $http, $q, $location
-
 angular.module('shareupApp')
  .service('tokenHandler', function($rootScope, $http, $q) {
   var token = null, currentUser;
