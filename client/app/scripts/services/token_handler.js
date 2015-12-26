@@ -6,7 +6,7 @@ angular.module('shareupApp')
 
   var tokenWrapper = function(resource, action) {
     resource['_' + action] = resource[action];
-	resource[action] = function( data, success, error){
+	  resource[action] = function( data, success, error){
 	  return resource['_' + action](
 	    angular.extend({}, data || {}, 
 	     {access_token: tokenHandler.get()}), success,error); 
