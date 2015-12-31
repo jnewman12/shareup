@@ -8,6 +8,8 @@
  *
  * Main module of the application.
  */
+
+// leaving this structure for now, but might change
 var App =  angular.module('shareupApp', ['ngAnimate','ngCookies','ngResource','ngRoute','ngSanitize','ngTouch'])
 
 
