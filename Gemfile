@@ -14,8 +14,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 gem 'unicorn'
 
-# devise no longer uses tokens. i dont like devise, but maybe there is a more secure way than 
-# the way i am thinking....will consider
+
 gem 'devise-token_authenticatable', '~> 0.4'
 
 group :development, :test do
