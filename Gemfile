@@ -14,6 +14,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 gem 'unicorn'
 
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'uuidtools'
+gem 'angularjs-rails'
+gem 'ngmin-rails'
 
 gem 'devise-token_authenticatable', '~> 0.4'
 
@@ -30,10 +36,3 @@ end
 group :production do 
   gem 'pg'
 end
-
-gem 'devise'
-gem 'omniauth'
-gem 'omniauth-twitter'
-gem 'uuidtools'
-gem 'angularjs-rails'
-gem 'ngmin-rails'
